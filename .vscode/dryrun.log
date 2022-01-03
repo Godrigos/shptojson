@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/rodrigo/Documentos/shptojson'
+make: Leaving directory '/home/rodrigo/Documentos/shptojson'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+ 
