@@ -1,0 +1,11 @@
+# CPR depends on libcurl 7.80.0 and PROJ (used by GDAL) depends on
+# libcurl 7.79.1. conananfile.py of PROJ must be edited to use libcurl 7.80.0
+# otherwise a conflict error will occur.
+
+[requires]
+indicators/2.2
+cpr/1.7.2
+gdal/3.3.3
+
+[generators]
+cmake
