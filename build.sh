@@ -18,7 +18,7 @@ cd build
 
 conan install .. --build=missing -pr:h windows -pr:b default \
   -o libcurl:with_unix_sockets=False
-cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Windows
 cmake --build . --clean-first
 
 cd ..
