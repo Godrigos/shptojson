@@ -54,8 +54,8 @@ Total summary(std::string sufix) {
       std::getline(std::cin, ok);
       transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
       if (ok == "y") {
+        checkDir("./shp/BR");
         indicators::ProgressBar bar = progressBar(tokens.size());
-
         for (int i = 0; i < tokens.size(); i++) {
           std::string downStatus =
               download(tokens[i], downloadDir, URL + sufix + tokens[i]);
@@ -117,6 +117,7 @@ Total summary(std::string sufix) {
       std::getline(std::cin, ok);
       transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
       if (ok == "y") {
+        checkDir("./shp/UFs");
         indicators::ProgressBar bar = progressBar(count);
         for (int i = 0; i < states.size(); i++) {
           cpr::Response r = cpr::Get(cpr::Url{URL + sufix + states[i] + "/"});

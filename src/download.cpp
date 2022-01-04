@@ -1,6 +1,5 @@
 #include "shptojson.hpp"
 #include <cpr/cpr.h>
-#include <filesystem>
 #include <fstream>
 
 /*
@@ -12,8 +11,6 @@ or the name of file followed by the response status code if it fails.
 */
 std::string download(std::string filename, std::string downloadDir,
                      std::string uri) {
-
-  checkDir(downloadDir);
 
   std::ofstream of(downloadDir + "/" + filename, std::ios::binary);
 

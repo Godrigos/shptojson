@@ -1,6 +1,7 @@
 #ifndef __SHPTOJSON__
 #define __SHPTOJSON__
 
+#include <filesystem>
 #include <indicators/progress_bar.hpp>
 #include <iostream>
 #include <string>
@@ -38,5 +39,6 @@ std::string download(std::string filename, std::string downloadDir,
                      std::string uri);
 void checkDir(std::string downloadDir);
 indicators::ProgressBar progressBar(int count);
+void convert(const std::filesystem::path shpFilePath);
 
 #endif
