@@ -10,3 +10,13 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --clean-first
 
 echo "Linux compilation ended."
+echo
+
+echo "Windows cross compilation." 
+
+conan install .. --build=missing --profile ../Windows/windows
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . --clean-first
+cd ..
+
+echo "Windows compilation ended."
