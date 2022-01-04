@@ -1,3 +1,9 @@
+# CMake version check
+cmake_minimum_required(VERSION 3.15)
+
+# set the project name and version
+project(shptojson VERSION 1.0 LANGUAGES CXX)
+
 # the name of the target operating system
 set(CMAKE_SYSTEM_NAME Linux)
 
@@ -22,3 +28,6 @@ add_executable(${CMAKE_PROJECT_NAME} "${source_files}")
 
 target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS})
 
+target_include_directories(${CMAKE_PROJECT_NAME}
+    PUBLIC "${CMAKE_CURRENT_LIST_DIR}/inc"                          
+)

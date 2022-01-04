@@ -1,3 +1,9 @@
+# CMake version check
+cmake_minimum_required(VERSION 3.15)
+
+# set the project name and version
+project(shptojson VERSION 1.0 LANGUAGES CXX)
+
 # the name of the target operating system
 set(CMAKE_SYSTEM_NAME Windows)
 
@@ -10,8 +16,18 @@ set(CMAKE_C_COMPILER "/usr/bin/x86_64-w64-mingw32-gcc-posix")
 set(CMAKE_CXX_COMPILER "/usr/bin/x86_64-w64-mingw32-g++-posix")
 set(CMAKE_BUILD_TYPE Release)
 
+# set source files list
+set(source_files ../src/main.cpp ../src/parser.cpp ../src/summary.cpp
+    ../src/download.cpp ../src/checkDir.cpp ../src/bar.cpp ../src/convert.cpp)
+
 # Conan settingns
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+add_executable(${CMAKE_PROJECT_NAME} "${source_files}")
+
 target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS})
+
+target_include_directories(${CMAKE_PROJECT_NAME}
+    PUBLIC "${CMAKE_CURRENT_LIST_DIR}/inc"                          
+)
