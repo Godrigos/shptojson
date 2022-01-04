@@ -50,7 +50,7 @@ Total summary(std::string sufix) {
     spinner.mark_as_completed();
 
     while (ok != "y" && ok != "n") {
-      std::cout << "Download the files? (y/n): ";
+      std::cout << "Download the files? (Y/n): ";
       std::getline(std::cin, ok);
       transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
       if (ok == "y") {
@@ -113,7 +113,7 @@ Total summary(std::string sufix) {
     spinner.mark_as_completed();
 
     while (ok != "y" && ok != "n") {
-      std::cout << "Download the files? (y/n): ";
+      std::cout << "Download the files? (Y/n): ";
       std::getline(std::cin, ok);
       transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
       if (ok == "y") {
