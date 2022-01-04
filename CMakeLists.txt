@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.15)
 project(shptojson VERSION 1.0 LANGUAGES CXX)
 
 add_subdirectory(Linux)
+add_subdirectory(Windows)
 
 target_include_directories(${CMAKE_PROJECT_NAME}
     PUBLIC "${CMAKE_CURRENT_LIST_DIR}/inc"                          
