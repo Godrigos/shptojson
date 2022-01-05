@@ -15,9 +15,9 @@ void convert(const std::filesystem::path shpFilePath) {
   GDALDatasetH shp = GDALOpenEx(shpFilePath.string().data(), GDAL_OF_VECTOR,
                                 inputDriver, NULL, NULL);
   GDALDatasetH geo =
-      GDALCreate(geoJSON, outGeoJson.data(), 0, 0, 1, GDT_Unknown, NULL);
+      GDALCreate(geoJSON, outGeoJson.data(), 0, 0, 0, GDT_Unknown, NULL);
   GDALDatasetH topo =
-      GDALCreate(topoJSON, outTopoJson.data(), 0, 0, 1, GDT_Unknown, NULL);
+      GDALCreate(topoJSON, outTopoJson.data(), 0, 0, 0, GDT_Unknown, NULL);
 
   GDALVectorTranslate(NULL, geo, 1, &shp, NULL, &err);
   if (err == 0) {

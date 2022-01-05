@@ -5,7 +5,7 @@
 echo "Linux compilation." 
 cd build
 
-conan install .. --build=missing --profile ../linux
+conan install .. --build=missing
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --clean-first
 
