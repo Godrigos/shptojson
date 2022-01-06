@@ -4,7 +4,6 @@
 void convert(const std::filesystem::path shpFilePath, std::string suffix) {
   std::string dir;
   std::string filePath = "/vsizip/" + shpFilePath.string();
-  const char *shpEnc[2]{"ENCODING=CPL_ENC_UTF8", NULL};
 
   if (suffix == "Brasil/BR/") {
     checkDir("./BR");
@@ -16,8 +15,8 @@ void convert(const std::filesystem::path shpFilePath, std::string suffix) {
   GDALAllRegister();
 
   GDALDataset *poDS;
-  poDS = (GDALDataset *)GDALOpenEx(filePath.data(), GDAL_OF_VECTOR, NULL,
-                                   shpEnc, NULL);
+  poDS = (GDALDataset *)GDALOpenEx(filePath.data(), GDAL_OF_VECTOR, NULL, NULL,
+                                   NULL);
   if (poDS == NULL) {
     std::cerr << "Open " << shpFilePath.filename() << " failed." << std::endl;
     exit(EXIT_FAILURE);

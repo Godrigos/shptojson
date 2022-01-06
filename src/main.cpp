@@ -9,6 +9,7 @@ int main(int argc, char const *argv[]) {
     exit(EXIT_FAILURE);
   }
   Total total{0, 0};
+  setenv("CPL_ZIP_ENCODING", "UTF-8", 0);
 
   std::string suffix;
   std::string mesh = argv[1];
@@ -16,8 +17,8 @@ int main(int argc, char const *argv[]) {
 
   if (mesh == "br") {
     suffix = "Brasil/BR/";
-    total = summary(suffix);
-    // convert("./shp/BR/BR_UF_2020.zip", suffix);
+    // total = summary(suffix);
+    convert("./shp/BR/BR_UF_2020.zip", suffix);
   } else if (mesh == "ufs") {
     suffix = "UFs/";
     total = summary(suffix);
@@ -27,6 +28,6 @@ int main(int argc, char const *argv[]) {
               << "mesh name [\"BR\" or \"UFs\"]." << std::endl;
     exit(EXIT_FAILURE);
   }
-
+  unsetenv("CPL_ZIP_ENCODING");
   return EXIT_SUCCESS;
 }
