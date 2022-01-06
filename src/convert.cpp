@@ -1,36 +1,26 @@
 #include "shptojson.hpp"
-#include <gdal.h>
-#include <gdal_utils.h>
+#include <ogrsf_frmts.h>
 
-void convert(const std::filesystem::path shpFilePath) {
-  const char *inputDriver[2]{"ESRI Shapefile", NULL};
-  const char *geoJSON[2]{"GeoJSON", NULL};
-  const char *topoJSON[2]{"TopoJSON", NULL};
-  int err = 1;
-  std::string baseFileName = shpFilePath.stem();
+void convert(const std::filesystem::path shpFilePath, std::string suffix) {
+  std::string dir;
+  std::string filePath = "/vsizip/" + shpFilePath.string();
+  const char *shpEnc[2]{"ENCODING=CPL_ENC_UTF8", NULL};
 
-  std::string outGeoJson = baseFileName + ".geoJSON";
-  std::string outTopoJson = baseFileName + ".json";
-
-  GDALDatasetH shp = GDALOpenEx(shpFilePath.string().data(), GDAL_OF_VECTOR,
-                                inputDriver, NULL, NULL);
-  GDALDatasetH geo =
-      GDALCreate(geoJSON, outGeoJson.data(), 0, 0, 0, GDT_Unknown, NULL);
-  GDALDatasetH topo =
-      GDALCreate(topoJSON, outTopoJson.data(), 0, 0, 0, GDT_Unknown, NULL);
-
-  GDALVectorTranslate(NULL, geo, 1, &shp, NULL, &err);
-  if (err == 0) {
-    std::cerr << "Error converting file " << shpFilePath.filename()
-              << " to GeoJSON." << std::endl;
+  if (suffix == "Brasil/BR/") {
+    checkDir("./BR");
+    dir = "BR/";
+  } else if ("UFs/") {
+    checkDir("./UFs");
+    dir = "UFs/";
   }
-  GDALVectorTranslate(NULL, topo, 1, &shp, NULL, &err);
-  if (err == 0) {
-    std::cerr << "Error converting file " << shpFilePath.filename()
-              << " to TopoJSON." << std::endl;
-  }
+  GDALAllRegister();
 
-  GDALClose(shp);
-  GDALClose(geo);
-  GDALClose(topo);
+  GDALDataset *poDS;
+  poDS = (GDALDataset *)GDALOpenEx(filePath.data(), GDAL_OF_VECTOR, NULL,
+                                   shpEnc, NULL);
+  if (poDS == NULL) {
+    std::cerr << "Open " << shpFilePath.filename() << " failed." << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  std::cout << poDS->GetDriverName() << std::endl;
 }

@@ -34,11 +34,10 @@ struct Total {
 
 // Functions prototypes
 std::vector<std::string> parser(std::string html, std::string mesh);
-Total summary(std::string sufix);
-std::string download(std::string filename, std::string downloadDir,
-                     std::string uri);
+Total summary(std::string suffix);
+std::string download(std::string filename, std::string dir, std::string uri);
 void checkDir(std::string downloadDir);
 indicators::ProgressBar progressBar(int count);
-void convert(const std::filesystem::path shpFilePath);
+void convert(const std::filesystem::path shpFilePath, std::string suffix);
 
 #endif

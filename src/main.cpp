@@ -10,17 +10,17 @@ int main(int argc, char const *argv[]) {
   }
   Total total{0, 0};
 
-  std::string sufix;
+  std::string suffix;
   std::string mesh = argv[1];
   transform(mesh.begin(), mesh.end(), mesh.begin(), ::tolower);
 
   if (mesh == "br") {
-    sufix = "Brasil/BR/";
-    total = summary(sufix);
-
+    suffix = "Brasil/BR/";
+    total = summary(suffix);
+    // convert("./shp/BR/BR_UF_2020.zip", suffix);
   } else if (mesh == "ufs") {
-    sufix = "UFs/";
-    total = summary(sufix);
+    suffix = "UFs/";
+    total = summary(suffix);
   } else {
     std::cerr << "Wrong mesh name." << '\n';
     std::cerr << "Usage: " << argv[0] << " "

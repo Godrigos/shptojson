@@ -8,7 +8,7 @@ This function lists the selected mesh number of files and total download size.
 It askes the user about downloading after presenting such data. It calls the
 download function if yes or ends the application if no.
 */
-Total summary(std::string sufix) {
+Total summary(std::string suffix) {
 
   Total total{0, 0};
   std::string ok = "";
@@ -24,17 +24,17 @@ Total summary(std::string sufix) {
       indicators::option::FontStyles{
           std::vector<indicators::FontStyle>{indicators::FontStyle::bold}}};
 
-  if (sufix == "Brasil/BR/") {
+  if (suffix == "Brasil/BR/") {
     std::vector<std::string> err;
     const std::string downloadDir = "./shp/BR";
 
-    cpr::Response r = cpr::Get(cpr::Url{URL + sufix});
+    cpr::Response r = cpr::Get(cpr::Url{URL + suffix});
     std::vector<std::string> tokens = parser(r.text, "BR");
     spinner.set_option(indicators::option::MaxProgress{tokens.size()});
     total.files = tokens.size();
 
     for (int i = 0; i < tokens.size(); i++) {
-      cpr::Response r = cpr::Head(cpr::Url{URL + sufix + tokens[i]});
+      cpr::Response r = cpr::Head(cpr::Url{URL + suffix + tokens[i]});
       total.size += stof(r.header["Content-Length"]);
       spinner.tick();
     }
@@ -58,7 +58,7 @@ Total summary(std::string sufix) {
         indicators::ProgressBar bar = progressBar(tokens.size());
         for (int i = 0; i < tokens.size(); i++) {
           std::string downStatus =
-              download(tokens[i], downloadDir, URL + sufix + tokens[i]);
+              download(tokens[i], downloadDir, URL + suffix + tokens[i]);
           if (!downStatus.empty()) {
             err.push_back(downStatus);
           } else {
@@ -82,7 +82,7 @@ Total summary(std::string sufix) {
       }
     }
 
-  } else if (sufix == "UFs/") {
+  } else if (suffix == "UFs/") {
     std::vector<std::string> err;
     int count = 0;
     const std::string downloadDir = "./shp/UFs";
@@ -90,12 +90,12 @@ Total summary(std::string sufix) {
     spinner.set_option(indicators::option::MaxProgress{states.size()});
 
     for (int i = 0; i < states.size(); i++) {
-      cpr::Response r = cpr::Get(cpr::Url{URL + sufix + states[i] + "/"});
+      cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
       std::vector<std::string> tokens = parser(r.text, states[i]);
       total.files += tokens.size();
       for (int j = 0; j < tokens.size(); j++) {
         cpr::Response r =
-            cpr::Head(cpr::Url{URL + sufix + states[i] + "/" + tokens[j]});
+            cpr::Head(cpr::Url{URL + suffix + states[i] + "/" + tokens[j]});
         total.size += stof(r.header["Content-Length"]);
         count++;
       }
@@ -120,12 +120,12 @@ Total summary(std::string sufix) {
         checkDir("./shp/UFs");
         indicators::ProgressBar bar = progressBar(count);
         for (int i = 0; i < states.size(); i++) {
-          cpr::Response r = cpr::Get(cpr::Url{URL + sufix + states[i] + "/"});
+          cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
           std::vector<std::string> tokens = parser(r.text, states[i]);
           for (int j = 0; j < tokens.size(); j++) {
             std::string downStatus =
                 download(tokens[j], downloadDir,
-                         URL + sufix + states[i] + "/" + tokens[j]);
+                         URL + suffix + states[i] + "/" + tokens[j]);
             if (!downStatus.empty()) {
               err.push_back(downStatus);
             } else {
