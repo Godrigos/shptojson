@@ -21,11 +21,6 @@ void convert(const std::filesystem::path shpFilePath, std::string suffix) {
     std::cerr << "GeoJSON driver not available." << std::endl;
     exit(EXIT_FAILURE);
   }
-  GDALDriver *ptjDriver = GetGDALDriverManager()->GetDriverByName("TopoJSON");
-  if (ptjDriver == NULL) {
-    std::cerr << "TopoJSON driver not available." << std::endl;
-    exit(EXIT_FAILURE);
-  }
 
   GDALDatasetH poDS =
       GDALOpenEx(filePath.data(), GDAL_OF_VECTOR, NULL, NULL, NULL);
@@ -33,17 +28,18 @@ void convert(const std::filesystem::path shpFilePath, std::string suffix) {
     std::cerr << "Failed to open " << shpFilePath.filename() << "."
               << std::endl;
   }
-  GDALDataset *pdDS =
+
+  GDALDataset *pgjdDS =
       pgjDriver->Create("BR_UF_2020.geoJSON", 0, 0, 0, GDT_Unknown, NULL);
-  if (pdDS == NULL) {
+  if (pgjdDS == NULL) {
     std::cerr << "Creation of output file failed." << std::endl;
   }
 
-  GDALVectorTranslate(NULL, (GDALDatasetH)pdDS, 1, &poDS, NULL, &err);
+  GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, &poDS, NULL, &err);
   if (err == 0) {
     std::cerr << "Error converting file." << std::endl;
   }
 
   GDALClose(poDS);
-  GDALClose(pdDS);
+  GDALClose(pgjdDS);
 }
