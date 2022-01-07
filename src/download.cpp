@@ -6,7 +6,7 @@
 /*
 This Function downloads files from IBGE database. It recieves a detination
 file name its download path and the remote file link.
-It first evaluate if the file already exists and it valid (not corrupted), then
+It first evaluate if the file already exists and is valid (not corrupted), then
 it calls checkDir function to create, if needed, the directories to download
 the files to. It returns an empty string if the operation is suceessful
 or the name of file if it fails.
@@ -18,6 +18,7 @@ std::string download(std::string filename, std::string downloadDir,
 
   zip_t *zipFile =
       zip_open((downloadDir + "/" + filename).data(), ZIP_CHECKCONS, &err);
+  zip_discard(zipFile);
   if (err != 0) {
     std::ofstream of(downloadDir + "/" + filename, std::ios::binary);
     cpr::Response r =
