@@ -25,8 +25,6 @@ Total summary(std::string suffix) {
           std::vector<indicators::FontStyle>{indicators::FontStyle::bold}}};
 
   if (suffix == "Brasil/BR/") {
-    std::vector<std::string> err;
-    const std::string downloadDir = "./shp/BR";
 
     cpr::Response r = cpr::Get(cpr::Url{URL + suffix});
     std::vector<std::string> tokens = parser(r.text, "BR");
@@ -49,49 +47,17 @@ Total summary(std::string suffix) {
         " MiB " + "(" + std::to_string(total.files) + " files)"});
     spinner.mark_as_completed();
 
-    while (ok != "y" && ok != "n") {
-      std::cout << "Download the files? (Y/n): ";
-      std::getline(std::cin, ok);
-      transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
-      if (ok == "y") {
-        checkDir("./shp/BR");
-        indicators::ProgressBar bar = progressBar(tokens.size());
-        for (int i = 0; i < tokens.size(); i++) {
-          std::string downStatus =
-              download(tokens[i], downloadDir, URL + suffix + tokens[i]);
-          if (!downStatus.empty()) {
-            err.push_back(downStatus);
-          } else {
-            bar.tick();
-          }
-        }
-        if (!err.empty()) {
-          bar.mark_as_completed();
-          std::cout << "Error downloading files:\n";
-          std::for_each(err.begin(), err.end(), [](const std::string &file) {
-            std::cout << "\t\u2022 " << file << '\n';
-          });
-        } else {
-          std::cout << "All " << tokens.size()
-                    << " files downloaded successfully." << std::endl;
-        }
-      } else if (ok == "n") {
-        std::cout << "Skipping download process!" << std::endl;
-      } else {
-        std::cout << "Wrong option! Type \"y\" or \"n\"." << std::endl;
-      }
-    }
+    confirmDownload(tokens, "./shp/BR", suffix);
 
   } else if (suffix == "UFs/") {
-    std::vector<std::string> err;
     int count = 0;
-    const std::string downloadDir = "./shp/UFs";
+    std::vector<std::string> tokens;
 
     spinner.set_option(indicators::option::MaxProgress{states.size()});
 
     for (int i = 0; i < states.size(); i++) {
       cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
-      std::vector<std::string> tokens = parser(r.text, states[i]);
+      tokens = parser(r.text, states[i]);
       total.files += tokens.size();
       for (int j = 0; j < tokens.size(); j++) {
         cpr::Response r =
@@ -112,43 +78,7 @@ Total summary(std::string suffix) {
         " MiB " + "(" + std::to_string(total.files) + " files)"});
     spinner.mark_as_completed();
 
-    while (ok != "y" && ok != "n") {
-      std::cout << "Download the files? (Y/n): ";
-      std::getline(std::cin, ok);
-      transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
-      if (ok == "y") {
-        checkDir("./shp/UFs");
-        indicators::ProgressBar bar = progressBar(count);
-        for (int i = 0; i < states.size(); i++) {
-          cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
-          std::vector<std::string> tokens = parser(r.text, states[i]);
-          for (int j = 0; j < tokens.size(); j++) {
-            std::string downStatus =
-                download(tokens[j], downloadDir,
-                         URL + suffix + states[i] + "/" + tokens[j]);
-            if (!downStatus.empty()) {
-              err.push_back(downStatus);
-            } else {
-              bar.tick();
-            }
-          }
-        }
-        if (!err.empty()) {
-          bar.mark_as_completed();
-          std::cout << "Error downloading files:\n";
-          std::for_each(err.begin(), err.end(), [](const std::string &file) {
-            std::cout << "\t\u2022 " << file << '\n';
-          });
-        } else {
-          std::cout << "All " << count << " files downloaded successfully."
-                    << std::endl;
-        }
-      } else if (ok == "n") {
-        std::cout << "Skipping download process!" << std::endl;
-      } else {
-        std::cout << "Wrong option! Type \"y\" or \"n\"." << std::endl;
-      }
-    }
+    confirmDownload(tokens, "./shp/UFs", suffix, count);
   }
   indicators::show_console_cursor(true);
 

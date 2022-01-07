@@ -40,5 +40,7 @@ void checkDir(std::string downloadDir);
 indicators::ProgressBar progressBar(int count);
 void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
              std::string suffix);
+void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
+                     std::string suffix, int count = 0);
 
 #endif
