@@ -22,7 +22,7 @@ endif()
 # set source files list
 set(source_files ./src/main.cpp ./src/parser.cpp ./src/summary.cpp
     ./src/download.cpp ./src/checkDir.cpp ./src/bar.cpp ./src/convert.cpp
-    ./src/confirm.cpp)
+    ./src/confirmDownload.cpp)
 
 # Conan settingns
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
