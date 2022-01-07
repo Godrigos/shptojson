@@ -11,7 +11,7 @@ download function if yes or ends the application if no.
 Total summary(std::string suffix) {
 
   Total total{0, 0};
-  std::string ok = "";
+  std::string ok;
 
   indicators::show_console_cursor(false);
 
@@ -76,7 +76,7 @@ Total summary(std::string suffix) {
                     << " files downloaded successfully." << std::endl;
         }
       } else if (ok == "n") {
-        exit(EXIT_SUCCESS);
+        std::cout << "Skipping download process!" << std::endl;
       } else {
         std::cout << "Wrong option! Type \"y\" or \"n\"." << std::endl;
       }
@@ -144,7 +144,7 @@ Total summary(std::string suffix) {
                     << std::endl;
         }
       } else if (ok == "n") {
-        exit(EXIT_SUCCESS);
+        std::cout << "Skipping download process!" << std::endl;
       } else {
         std::cout << "Wrong option! Type \"y\" or \"n\"." << std::endl;
       }

@@ -17,8 +17,8 @@ int main(int argc, char const *argv[]) {
 
   if (mesh == "br") {
     suffix = "Brasil/BR/";
-    // total = summary(suffix);
-    convert("./shp/BR/BR_UF_2020.zip", suffix);
+    total = summary(suffix);
+    convert("./shp/BR/BR_UF_2020.zip", "./GeoJSON/BR/", suffix);
   } else if (mesh == "ufs") {
     suffix = "UFs/";
     total = summary(suffix);

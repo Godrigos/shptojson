@@ -1,27 +1,32 @@
 #include "shptojson.hpp"
 #include <cpr/cpr.h>
 #include <fstream>
+#include <zip.h>
 
 /*
 This Function downloads files from IBGE database. It recieves a detination
 file name its download path and the remote file link.
-It calls checkDir function to create, if needed, the directories to download
+It first evaluate if the file already exists and it valid (not corrupted), then
+it calls checkDir function to create, if needed, the directories to download
 the files to. It returns an empty string if the operation is suceessful
-or the name of file followed by the response status code if it fails.
+or the name of file if it fails.
 */
 std::string download(std::string filename, std::string downloadDir,
                      std::string uri) {
 
-  std::ofstream of(downloadDir + "/" + filename, std::ios::binary);
+  int err = 0;
 
-  cpr::Response r =
-      cpr::Download(of, cpr::Url{uri}, cpr::LowSpeed(15, 3 * MIN));
-  if (r.status_code != 200) {
+  zip_t *zipFile =
+      zip_open((downloadDir + "/" + filename).data(), ZIP_CHECKCONS, &err);
+  if (err != 0) {
+    std::ofstream of(downloadDir + "/" + filename, std::ios::binary);
+    cpr::Response r =
+        cpr::Download(of, cpr::Url{uri}, cpr::LowSpeed(15, 3 * MIN));
     of.close();
-    return filename;
+    if (r.status_code != 200) {
+      return filename;
+    }
   }
-
-  of.close();
 
   return "";
 }

@@ -2,18 +2,13 @@
 #include <gdal_utils.h>
 #include <ogrsf_frmts.h>
 
-void convert(const std::filesystem::path shpFilePath, std::string suffix) {
+void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
+             std::string suffix) {
   std::string dir;
   int err = 1;
   std::string filePath = "/vsizip/" + shpFilePath.string();
+  std::string destPath = geoFilePath + shpFilePath.stem().string() + "geoJSON";
 
-  if (suffix == "Brasil/BR/") {
-    checkDir("./BR");
-    dir = "BR/";
-  } else if ("UFs/") {
-    checkDir("./UFs");
-    dir = "UFs/";
-  }
   GDALAllRegister();
 
   GDALDriver *pgjDriver = GetGDALDriverManager()->GetDriverByName("GeoJSON");
@@ -22,23 +17,30 @@ void convert(const std::filesystem::path shpFilePath, std::string suffix) {
     exit(EXIT_FAILURE);
   }
 
-  GDALDatasetH poDS =
-      GDALOpenEx(filePath.data(), GDAL_OF_VECTOR, NULL, NULL, NULL);
+  GDALDataset *poDS = (GDALDataset *)GDALOpenEx(filePath.data(), GDAL_OF_VECTOR,
+                                                NULL, NULL, NULL);
   if (poDS == NULL) {
     std::cerr << "Failed to open " << shpFilePath.filename() << "."
               << std::endl;
   }
 
   GDALDataset *pgjdDS =
-      pgjDriver->Create("BR_UF_2020.geoJSON", 0, 0, 0, GDT_Unknown, NULL);
+      pgjDriver->Create(geoFilePath.data(), 0, 0, 0, GDT_Unknown, NULL);
   if (pgjdDS == NULL) {
     std::cerr << "Creation of output file failed." << std::endl;
   }
 
-  GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, &poDS, NULL, &err);
+  GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, (GDALDatasetH *)&poDS,
+                      NULL, &err);
   if (err == 0) {
-    std::cerr << "Error converting file." << std::endl;
+    std::cerr << "Error converting file " << shpFilePath.filename() << "."
+              << std::endl;
   }
+
+  std::cout << "Layer: " << poDS->GetLayer(0)->GetName() << " - ";
+  std::cout << "Driver: " << poDS->GetDriver()->GetDescription() << " - ";
+  std::cout << "GCS: " << poDS->GetLayer(0)->GetSpatialRef()->GetName()
+            << std::endl;
 
   GDALClose(poDS);
   GDALClose(pgjdDS);
