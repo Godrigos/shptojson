@@ -48,6 +48,7 @@ Total summary(std::string suffix) {
     spinner.mark_as_completed();
 
     confirmDownload(tokens, "./shp/BR", suffix);
+    confirmConvert(tokens, "./shp/BR", suffix);
 
   } else if (suffix == "UFs/") {
     int count = 0;
@@ -79,6 +80,7 @@ Total summary(std::string suffix) {
     spinner.mark_as_completed();
 
     confirmDownload(tokens, "./shp/UFs", suffix, count);
+    confirmConvert(tokens, "./shp/UFs", suffix, count);
   }
   indicators::show_console_cursor(true);
 
