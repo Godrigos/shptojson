@@ -14,9 +14,9 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
       if (ok == "y") {
         checkDir("./shp/BR");
         indicators::ProgressBar bar = progressBar(tokens.size());
-        for (int i = 0; i < tokens.size(); i++) {
+        for (std::string item : tokens) {
           std::string downStatus =
-              download(tokens[i], downloadDir, URL + suffix + tokens[i]);
+              download(item, downloadDir, URL + suffix + item);
           if (!downStatus.empty()) {
             err.push_back(downStatus);
           } else {
@@ -47,13 +47,12 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
       if (ok == "y") {
         checkDir("./shp/UFs");
         indicators::ProgressBar bar = progressBar(count);
-        for (int i = 0; i < states.size(); i++) {
-          cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
-          std::vector<std::string> tokens = parser(r.text, states[i]);
-          for (int j = 0; j < tokens.size(); j++) {
+        for (std::string state : states) {
+          cpr::Response r = cpr::Get(cpr::Url{URL + suffix + state + "/"});
+          std::vector<std::string> tokens = parser(r.text, state);
+          for (std::string item : tokens) {
             std::string downStatus =
-                download(tokens[j], downloadDir,
-                         URL + suffix + states[i] + "/" + tokens[j]);
+                download(item, downloadDir, URL + suffix + state + "/" + item);
             if (!downStatus.empty()) {
               err.push_back(downStatus);
             } else {
