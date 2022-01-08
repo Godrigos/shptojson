@@ -1,4 +1,6 @@
 #include "shptojson.hpp"
+#include <gdal_utils.h>
+#include <ogrsf_frmts.h>
 
 void confirmConvert(std::vector<std::string> tokens, std::string suffix,
                     int count) {
@@ -14,7 +16,7 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
           if (ok == "y") {
             checkDir("./geoJSON/BR");
             for (int i = 0; i < tokens.size(); i++) {
-              convert("./shp/BR/" + tokens[i], "./geoJSON/BR/", suffix);
+              convert("./shp/BR/" + tokens[i], "./geoJSON/BR/");
             }
 
           } else if (ok == "n") {

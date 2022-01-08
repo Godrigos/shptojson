@@ -2,9 +2,7 @@
 #include <gdal_utils.h>
 #include <ogrsf_frmts.h>
 
-void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
-             std::string suffix) {
-  std::string dir;
+void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
   int err = 1;
   std::string filePath = "/vsizip/" + shpFilePath.string();
   std::string destPath = geoFilePath + shpFilePath.stem().string() + ".geoJSON";
@@ -36,11 +34,6 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
               << std::endl;
   }
 
-  std::cout << "Layer: " << poDS->GetLayer(0)->GetName() << " - ";
-  std::cout << "Driver: " << poDS->GetDriver()->GetDescription() << " - ";
-  std::cout << "GCS: " << poDS->GetLayer(0)->GetSpatialRef()->GetName()
-            << std::endl;
-
-  GDALClose(poDS);
   GDALClose(pgjdDS);
+  GDALClose(poDS);
 }
