@@ -1,6 +1,4 @@
 #include "shptojson.hpp"
-#include <gdal_utils.h>
-#include <ogrsf_frmts.h>
 
 void confirmConvert(std::vector<std::string> tokens, std::string suffix,
                     int count) {
