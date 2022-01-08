@@ -7,7 +7,7 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
   std::string dir;
   int err = 1;
   std::string filePath = "/vsizip/" + shpFilePath.string();
-  std::string destPath = geoFilePath + shpFilePath.stem().string() + "geoJSON";
+  std::string destPath = geoFilePath + shpFilePath.stem().string() + ".geoJSON";
 
   GDALAllRegister();
 
@@ -23,9 +23,8 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath,
     std::cerr << "Failed to open " << shpFilePath.filename() << "."
               << std::endl;
   }
-
   GDALDataset *pgjdDS =
-      pgjDriver->Create(geoFilePath.data(), 0, 0, 0, GDT_Unknown, NULL);
+      pgjDriver->Create(destPath.data(), 0, 0, 0, GDT_Unknown, NULL);
   if (pgjdDS == NULL) {
     std::cerr << "Creation of output file failed." << std::endl;
   }
