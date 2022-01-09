@@ -17,17 +17,17 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
             checkDir("./geoJSON/BR");
             std::for_each(
                 std::execution::par_unseq, tokens.begin(), tokens.end(),
-                [](const std::string &item) {
+                [](const std::string &token) {
                   if (std::filesystem::exists(
                           "./geoJSON/BR/" +
-                          std::filesystem::path(item).stem().string() +
+                          std::filesystem::path(token).stem().string() +
                           ".geoJSON")) {
                     std::filesystem::remove(
                         "./geoJSON/BR/" +
-                        std::filesystem::path(item).stem().string() +
+                        std::filesystem::path(token).stem().string() +
                         ".geoJSON");
                   }
-                  convert("./shp/BR/" + item, "./geoJSON/BR/");
+                  convert("./shp/BR/" + token, "./geoJSON/BR/");
                 });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;
