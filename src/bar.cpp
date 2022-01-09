@@ -1,7 +1,7 @@
 #include <indicators/progress_bar.hpp>
 
 // Creates a progress bar which recieves a counter as MaxProgress.
-indicators::ProgressBar progressBar(int count) {
+indicators::ProgressBar progressBar(std::string_view prefix, int count) {
   return indicators::ProgressBar{
       indicators::option::BarWidth{40},
       indicators::option::Start{" |"},
@@ -9,7 +9,7 @@ indicators::ProgressBar progressBar(int count) {
       indicators::option::Lead{"█"},
       indicators::option::Remainder{"-"},
       indicators::option::End{"|"},
-      indicators::option::PrefixText{"Downloading"},
+      indicators::option::PrefixText{prefix},
       indicators::option::ForegroundColor{indicators::Color::yellow},
       indicators::option::ShowElapsedTime{true},
       indicators::option::ShowRemainingTime{true},

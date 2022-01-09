@@ -24,7 +24,8 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
   GDALDataset *pgjdDS =
       pgjDriver->Create(destPath.data(), 0, 0, 0, GDT_Unknown, NULL);
   if (pgjdDS == NULL) {
-    std::cerr << "Creation of output file failed." << std::endl;
+    std::cerr << "Unable to create " << shpFilePath.stem().string() + ".geoJSON"
+              << " file." << std::endl;
   }
 
   GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, (GDALDatasetH *)&poDS,

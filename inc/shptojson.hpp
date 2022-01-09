@@ -37,7 +37,7 @@ std::vector<std::string> parser(std::string html, std::string mesh);
 Total summary(std::string suffix);
 std::string download(std::string filename, std::string dir, std::string uri);
 void checkDir(std::string downloadDir);
-indicators::ProgressBar progressBar(int count);
+indicators::ProgressBar progressBar(std::string_view prefix, int count);
 void convert(const std::filesystem::path shpFilePath, std::string geoFilePath);
 void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
                      std::string suffix, int count = 0);
