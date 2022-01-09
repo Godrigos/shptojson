@@ -30,7 +30,7 @@ conan_basic_setup()
 
 add_executable(${CMAKE_PROJECT_NAME} "${source_files}")
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS})
+target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS} -ltbb)
 
 target_include_directories(${CMAKE_PROJECT_NAME}
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc"                          

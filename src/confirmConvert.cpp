@@ -1,4 +1,5 @@
 #include "shptojson.hpp"
+#include <execution>
 #include <filesystem>
 
 void confirmConvert(std::vector<std::string> tokens, std::string suffix,
@@ -14,17 +15,20 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/BR");
-            for (const std::string item : tokens) {
-              if (std::filesystem::exists(
-                      "./geoJSON/BR/" +
-                      std::filesystem::path(item).stem().string() +
-                      ".geoJSON")) {
-                std::filesystem::remove(
-                    "./geoJSON/BR/" +
-                    std::filesystem::path(item).stem().string() + ".geoJSON");
-              }
-              convert("./shp/BR/" + item, "./geoJSON/BR/");
-            }
+            std::for_each(
+                std::execution::par_unseq, tokens.begin(), tokens.end(),
+                [](const std::string &item) {
+                  if (std::filesystem::exists(
+                          "./geoJSON/BR/" +
+                          std::filesystem::path(item).stem().string() +
+                          ".geoJSON")) {
+                    std::filesystem::remove(
+                        "./geoJSON/BR/" +
+                        std::filesystem::path(item).stem().string() +
+                        ".geoJSON");
+                  }
+                  convert("./shp/BR/" + item, "./geoJSON/BR/");
+                });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;
           } else {
