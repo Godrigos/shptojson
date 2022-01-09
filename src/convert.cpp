@@ -4,8 +4,9 @@
 
 void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
   int err = 1;
-  std::string filePath = "/vsizip/" + shpFilePath.string();
-  std::string destPath = geoFilePath + shpFilePath.stem().string() + ".geoJSON";
+  std::string_view filePath = "/vsizip/" + shpFilePath.string();
+  std::string_view destPath =
+      geoFilePath + shpFilePath.stem().string() + ".geoJSON";
 
   GDALAllRegister();
 

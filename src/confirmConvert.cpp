@@ -14,7 +14,7 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/BR");
-            for (std::string item : tokens) {
+            for (const std::string item : tokens) {
               if (std::filesystem::exists(
                       "./geoJSON/BR/" +
                       std::filesystem::path(item).stem().string() +

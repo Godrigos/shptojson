@@ -4,7 +4,7 @@
 void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
                      std::string suffix, int count) {
   std::string ok;
-  std::vector<std::string> err;
+  std::vector<std::string_view> err;
 
   if (suffix == "Brasil/BR/") {
     while (ok != "y" && ok != "n") {
@@ -14,8 +14,8 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
       if (ok == "y") {
         checkDir("./shp/BR");
         indicators::ProgressBar bar = progressBar(tokens.size());
-        for (std::string item : tokens) {
-          std::string downStatus =
+        for (const std::string item : tokens) {
+          std::string_view downStatus =
               download(item, downloadDir, URL + suffix + item);
           if (!downStatus.empty()) {
             err.push_back(downStatus);
@@ -26,9 +26,10 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
         if (!err.empty()) {
           bar.mark_as_completed();
           std::cout << "Error downloading files:\n";
-          std::for_each(err.begin(), err.end(), [](const std::string &file) {
-            std::cout << "\t\u2022 " << file << '\n';
-          });
+          std::for_each(err.begin(), err.end(),
+                        [](const std::string_view &file) {
+                          std::cout << "\t\u2022 " << file << '\n';
+                        });
         } else {
           std::cout << "All " << tokens.size()
                     << " files downloaded successfully." << std::endl;
@@ -47,11 +48,11 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
       if (ok == "y") {
         checkDir("./shp/UFs");
         indicators::ProgressBar bar = progressBar(count);
-        for (std::string state : states) {
+        for (const std::string state : states) {
           cpr::Response r = cpr::Get(cpr::Url{URL + suffix + state + "/"});
           std::vector<std::string> tokens = parser(r.text, state);
-          for (std::string item : tokens) {
-            std::string downStatus =
+          for (const std::string item : tokens) {
+            std::string_view downStatus =
                 download(item, downloadDir, URL + suffix + state + "/" + item);
             if (!downStatus.empty()) {
               err.push_back(downStatus);
@@ -63,9 +64,10 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
         if (!err.empty()) {
           bar.mark_as_completed();
           std::cout << "Error downloading files:\n";
-          std::for_each(err.begin(), err.end(), [](const std::string &file) {
-            std::cout << "\t\u2022 " << file << '\n';
-          });
+          std::for_each(err.begin(), err.end(),
+                        [](const std::string_view &file) {
+                          std::cout << "\t\u2022 " << file << '\n';
+                        });
         } else {
           std::cout << "All " << count << " files downloaded successfully."
                     << std::endl;

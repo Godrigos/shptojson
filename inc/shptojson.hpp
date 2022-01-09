@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <indicators/progress_bar.hpp>
 #include <iostream>
-#include <string>
+#include <string_view>
 #include <vector>
 
 // A minute has 60 seconds
