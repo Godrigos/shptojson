@@ -27,7 +27,7 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
 
     GDALClose(pgjdDS);
     GDALClose(poDS);
-  } catch (std::exception &e) {
+  } catch (const std::exception &e) {
     std::cerr << std::string{e.what()} << std::endl;
   }
 }
