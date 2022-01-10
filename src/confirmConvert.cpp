@@ -14,13 +14,14 @@ void confirmConvert(std::string suffix, int count) {
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/BR");
+            indicators::ProgressBar bar = progressBar("Converting", count);
             std::vector<std::string> filesList;
             for (auto file : std::filesystem::directory_iterator("./shp/BR/")) {
               filesList.push_back(file.path().filename());
             }
             std::for_each(
                 std::execution::par_unseq, filesList.begin(), filesList.end(),
-                [](const std::string &file) {
+                [&](const std::string &file) {
                   if (std::filesystem::exists(
                           "./geoJSON/BR/" +
                           std::filesystem::path(file).stem().string() +
@@ -31,6 +32,7 @@ void confirmConvert(std::string suffix, int count) {
                         ".geoJSON");
                   }
                   convert("./shp/BR/" + file, "./geoJSON/BR/");
+                  bar.tick();
                 });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;
@@ -53,6 +55,7 @@ void confirmConvert(std::string suffix, int count) {
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/UFs");
+            indicators::ProgressBar bar = progressBar("Converting", count);
             std::vector<std::string> filesList;
             for (auto file :
                  std::filesystem::directory_iterator("./shp/UFs/")) {
@@ -60,7 +63,7 @@ void confirmConvert(std::string suffix, int count) {
             }
             std::for_each(
                 std::execution::par_unseq, filesList.begin(), filesList.end(),
-                [](const std::string &file) {
+                [&](const std::string &file) {
                   if (std::filesystem::exists(
                           "./geoJSON/UFs/" +
                           std::filesystem::path(file).stem().string() +
@@ -71,6 +74,7 @@ void confirmConvert(std::string suffix, int count) {
                         ".geoJSON");
                   }
                   convert("./shp/UFs/" + file, "./geoJSON/UFs/");
+                  bar.tick();
                 });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;

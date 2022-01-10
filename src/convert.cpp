@@ -15,26 +15,19 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
     exit(EXIT_FAILURE);
   }
 
-  GDALDataset *poDS = (GDALDataset *)GDALOpenEx(filePath.data(), GDAL_OF_VECTOR,
-                                                NULL, NULL, NULL);
-  if (poDS == NULL) {
-    std::cerr << "Failed to open " << shpFilePath.filename() << "."
-              << std::endl;
-  }
-  GDALDataset *pgjdDS =
-      pgjDriver->Create(destPath.data(), 0, 0, 0, GDT_Unknown, NULL);
-  if (pgjdDS == NULL) {
-    std::cerr << "Unable to create " << shpFilePath.stem().string() + ".geoJSON"
-              << " file." << std::endl;
-  }
+  try {
+    GDALDataset *poDS = (GDALDataset *)GDALOpenEx(
+        filePath.data(), GDAL_OF_VECTOR, NULL, NULL, NULL);
 
-  GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, (GDALDatasetH *)&poDS,
-                      NULL, &err);
-  if (err == 0) {
-    std::cerr << "Error converting file " << shpFilePath.filename() << "."
-              << std::endl;
-  }
+    GDALDataset *pgjdDS =
+        pgjDriver->Create(destPath.data(), 0, 0, 0, GDT_Unknown, NULL);
 
-  GDALClose(pgjdDS);
-  GDALClose(poDS);
+    GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, (GDALDatasetH *)&poDS,
+                        NULL, &err);
+
+    GDALClose(pgjdDS);
+    GDALClose(poDS);
+  } catch (std::exception &e) {
+    std::cerr << std::string{e.what()} << std::endl;
+  }
 }
