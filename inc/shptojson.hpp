@@ -41,7 +41,6 @@ indicators::ProgressBar progressBar(std::string_view prefix, int count);
 void convert(const std::filesystem::path shpFilePath, std::string geoFilePath);
 void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
                      std::string suffix, int count = 0);
-void confirmConvert(std::vector<std::string> tokens, std::string suffix,
-                    int count = 0);
+void confirmConvert(std::string suffix, int count = 0);
 
 #endif

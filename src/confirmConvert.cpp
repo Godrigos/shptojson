@@ -2,8 +2,7 @@
 #include <execution>
 #include <filesystem>
 
-void confirmConvert(std::vector<std::string> tokens, std::string suffix,
-                    int count) {
+void confirmConvert(std::string suffix, int count) {
   std::string ok;
 
   if (suffix == "Brasil/BR/") {
@@ -15,19 +14,23 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/BR");
+            std::vector<std::string> filesList;
+            for (auto file : std::filesystem::directory_iterator("./shp/BR/")) {
+              filesList.push_back(file.path().filename());
+            }
             std::for_each(
-                std::execution::par_unseq, tokens.begin(), tokens.end(),
-                [](const std::string &token) {
+                std::execution::par_unseq, filesList.begin(), filesList.end(),
+                [](const std::string &file) {
                   if (std::filesystem::exists(
                           "./geoJSON/BR/" +
-                          std::filesystem::path(token).stem().string() +
+                          std::filesystem::path(file).stem().string() +
                           ".geoJSON")) {
                     std::filesystem::remove(
                         "./geoJSON/BR/" +
-                        std::filesystem::path(token).stem().string() +
+                        std::filesystem::path(file).stem().string() +
                         ".geoJSON");
                   }
-                  convert("./shp/BR/" + token, "./geoJSON/BR/");
+                  convert("./shp/BR/" + file, "./geoJSON/BR/");
                 });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;
@@ -50,6 +53,25 @@ void confirmConvert(std::vector<std::string> tokens, std::string suffix,
           transform(ok.begin(), ok.end(), ok.begin(), ::tolower);
           if (ok == "y") {
             checkDir("./geoJSON/UFs");
+            std::vector<std::string> filesList;
+            for (auto file :
+                 std::filesystem::directory_iterator("./shp/UFs/")) {
+              filesList.push_back(file.path().filename());
+            }
+            std::for_each(
+                std::execution::par_unseq, filesList.begin(), filesList.end(),
+                [](const std::string &file) {
+                  if (std::filesystem::exists(
+                          "./geoJSON/UFs/" +
+                          std::filesystem::path(file).stem().string() +
+                          ".geoJSON")) {
+                    std::filesystem::remove(
+                        "./geoJSON/UFs/" +
+                        std::filesystem::path(file).stem().string() +
+                        ".geoJSON");
+                  }
+                  convert("./shp/UFs/" + file, "./geoJSON/UFs/");
+                });
           } else if (ok == "n") {
             std::cout << "Skipping convertion process!" << std::endl;
           } else {

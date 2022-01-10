@@ -31,8 +31,8 @@ Total summary(std::string suffix) {
     spinner.set_option(indicators::option::MaxProgress{tokens.size()});
     total.files = tokens.size();
 
-    for (int i = 0; i < tokens.size(); i++) {
-      cpr::Response r = cpr::Head(cpr::Url{URL + suffix + tokens[i]});
+    for (std::string token : tokens) {
+      cpr::Response r = cpr::Head(cpr::Url{URL + suffix + token});
       total.size += stof(r.header["Content-Length"]);
       spinner.tick();
     }
@@ -47,22 +47,21 @@ Total summary(std::string suffix) {
         " MiB " + "(" + std::to_string(total.files) + " files)"});
     spinner.mark_as_completed();
 
-    confirmDownload(tokens, "./shp/BR", suffix);
-    confirmConvert(tokens, suffix);
+    confirmDownload(tokens, "./shp/BR", suffix, total.files);
+    confirmConvert(suffix, total.files);
 
   } else if (suffix == "UFs/") {
-    int count = 0;
     std::vector<std::string> tokens;
-
+    int count = 0;
     spinner.set_option(indicators::option::MaxProgress{states.size()});
 
-    for (int i = 0; i < states.size(); i++) {
-      cpr::Response r = cpr::Get(cpr::Url{URL + suffix + states[i] + "/"});
-      tokens = parser(r.text, states[i]);
+    for (std::string state : states) {
+      cpr::Response r = cpr::Get(cpr::Url{URL + suffix + state + "/"});
+      tokens = parser(r.text, state);
       total.files += tokens.size();
-      for (int j = 0; j < tokens.size(); j++) {
+      for (std::string token : tokens) {
         cpr::Response r =
-            cpr::Head(cpr::Url{URL + suffix + states[i] + "/" + tokens[j]});
+            cpr::Head(cpr::Url{URL + suffix + state + "/" + token});
         total.size += stof(r.header["Content-Length"]);
         count++;
       }
@@ -80,7 +79,7 @@ Total summary(std::string suffix) {
     spinner.mark_as_completed();
 
     confirmDownload(tokens, "./shp/UFs", suffix, count);
-    confirmConvert(tokens, suffix, count);
+    confirmConvert(suffix, count);
   }
   indicators::show_console_cursor(true);
 

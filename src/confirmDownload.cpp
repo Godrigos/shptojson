@@ -31,8 +31,8 @@ void confirmDownload(std::vector<std::string> tokens, std::string downloadDir,
                           std::cout << "\t\u2022 " << file << '\n';
                         });
         } else {
-          std::cout << "All " << tokens.size()
-                    << " files downloaded successfully." << std::endl;
+          std::cout << "All " << count << " files downloaded successfully."
+                    << std::endl;
         }
       } else if (ok == "n") {
         std::cout << "Skipping download process!" << std::endl;
