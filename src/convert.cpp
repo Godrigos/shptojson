@@ -3,7 +3,6 @@
 #include <ogrsf_frmts.h>
 
 void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
-  int err = 1;
   std::string filePath = "/vsizip/" + shpFilePath.string();
   std::string destPath = geoFilePath + shpFilePath.stem().string() + ".geoJSON";
 
@@ -23,7 +22,7 @@ void convert(const std::filesystem::path shpFilePath, std::string geoFilePath) {
         pgjDriver->Create(destPath.data(), 0, 0, 0, GDT_Unknown, NULL);
 
     GDALVectorTranslate(NULL, (GDALDatasetH)pgjdDS, 1, (GDALDatasetH *)&poDS,
-                        NULL, &err);
+                        NULL, NULL);
 
     GDALClose(pgjdDS);
     GDALClose(poDS);
