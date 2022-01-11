@@ -1,6 +1,6 @@
 # shptojson
 
-A C++ version of [pySHPtoJSON](https://github.com/Godrigos/pySHPtoJSON), that do parallel conversion, making it way faster. It has a limitation of only being capable to generating GeoJSON files.
+A C++ version of [pySHPtoJSON](https://github.com/Godrigos/pySHPtoJSON) that do parallel conversion, making it way faster. It has a limitation of only being capable to generating GeoJSON files.
 
 All maps are downloaded from [IBGE (Instituto Brasileiro de Geografia e Estatística)](http://www.ibge.gov.br/), the agency responsible for
 statistical, geographic, cartographic, geodetic and environmental information
