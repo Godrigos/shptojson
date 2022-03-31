@@ -4,7 +4,7 @@
 #include <zip.h>
 
 /*
-This Function downloads files from IBGE database. It recieves a detination
+This Function downloads files from IBGE database. It recieves a destination
 file name its download path and the remote file link.
 It first evaluate if the file already exists and is valid (not corrupted), then
 it calls checkDir function to create, if needed, the directories to download
