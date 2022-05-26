@@ -18,3 +18,5 @@ Running `./shptojson BR` will generate GeoJSON files for
 Brazil and  `./shptojson UFs` for each of its states, municipalities, macro and microregions. They are located in `BR/` and `UFs/` subdirectories.
 
 Also, several original compacted shapefiles files are stored in the `shp` directory contains these files downloaded from IBGE. If you wish you may delete this extra directory after conversion.
+
+You might need to install TBB (libtbb2 on Debian/Ubuntu) for multi-core processing.
