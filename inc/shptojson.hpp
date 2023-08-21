@@ -13,7 +13,7 @@ const int MIN = 60;
 // Base IBGE URL to access the shapefiles
 const std::string URL =
     "geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/"
-    "malhas_municipais/municipio_2021/";
+    "malhas_municipais/municipio_2022/";
 
 // A vector containing the Brazilian states abbreviations
 const std::vector<std::string> states{"AC", "AL", "AP", "AM", "BA", "CE", "DF",
