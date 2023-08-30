@@ -4,7 +4,7 @@ A C++ version of [pySHPtoJSON](https://github.com/Godrigos/pySHPtoJSON) that do 
 
 All maps are downloaded from [IBGE (Instituto Brasileiro de Geografia e Estatística)](http://www.ibge.gov.br/), the agency responsible for
 statistical, geographic, cartographic, geodetic and environmental information
-in Brazil and were published on 2021.
+in Brazil and were published on 2022.
 
 ## Usage
 
