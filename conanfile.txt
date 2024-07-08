@@ -10,4 +10,5 @@ gdal/3.8.3
 libzip/1.10.1
 
 [generators]
-cmake
+CMakeDeps
+CMakeToolchain
