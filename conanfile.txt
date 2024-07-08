@@ -4,10 +4,10 @@
 # version to be changed to 1.1.1l.
 
 [requires]
-indicators/2.2
-cpr/1.7.2
-gdal/3.3.3
-libzip/1.8.0
+indicators/2.3
+cpr/1.10.5
+gdal/3.8.3
+libzip/1.10.1
 
 [generators]
 cmake
