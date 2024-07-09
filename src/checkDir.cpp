@@ -8,8 +8,8 @@ and creates them if not.
 */
 void checkDir(std::string dir) {
   try {
-    std::filesystem::exists(dir);
-    std::filesystem::is_directory(dir);
+    void(std::filesystem::exists(dir));
+    void(std::filesystem::is_directory(dir));
     std::filesystem::create_directories(dir);
   } catch (std::exception &e) {
     std::cerr << std::string{e.what()} << std::endl;
