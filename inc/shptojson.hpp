@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <indicators/progress_bar.hpp>
 #include <iostream>
+#include <stdint.h>
 #include <string_view>
 #include <vector>
 

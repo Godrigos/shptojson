@@ -1,4 +1,4 @@
-#include <indicators/progress_bar.hpp>
+#include "shptojson.hpp"
 
 // Creates a progress bar which recieves a counter as MaxProgress.
 indicators::ProgressBar progressBar(std::string_view prefix, int count) {
