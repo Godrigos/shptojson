@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # set the project name and version
-project(shptojson VERSION 1.0 LANGUAGES CXX)
+project(shptojson VERSION 1.1 LANGUAGES CXX)
 
 # specify the C++ compiler and standard
 set(CMAKE_CXX_STANDARD 17)
@@ -25,7 +25,7 @@ set(source_files ./src/main.cpp ./src/parser.cpp ./src/summary.cpp
     ./src/download.cpp ./src/checkDir.cpp ./src/bar.cpp ./src/convert.cpp
     ./src/confirmDownload.cpp ./src/confirmConvert.cpp)
 
-# Conan settingns
+# Conan settings
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
