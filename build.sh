@@ -3,10 +3,10 @@
 # Attention to conan profiles when compiling or cross compiling
 
 echo "Linux compilation." 
-cd build
 
-conan install .. --build=missing
-cmake .. -DCMAKE_BUILD_TYPE=Release
+conan install . --output-folder=build --build=missing
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
 cmake --build . --clean-first
 
 cd ..
@@ -14,11 +14,11 @@ echo "Linux compilation ended."
 echo
 
 echo "Windows cross compilation."
-cd build
 
-conan install .. --build=missing -pr:h windows -pr:b default \
+conan install . --output-folder=build --build=missing -pr:h windows -pr:b default \
   -o libcurl:with_unix_sockets=False
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Windows
+cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_NAME=Windows
 cmake --build . --clean-first
 
 cd ..
