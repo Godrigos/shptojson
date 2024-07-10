@@ -15,7 +15,7 @@ void confirmConvert(std::string suffix, int count) {
           if (ok == "y") {
             checkDir("./geoJSON/BR");
             indicators::ProgressBar bar = progressBar("Converting", count);
-            std::vector<std::string> filesList;
+            std::vector<std::string> filesList(count);
             for (auto file : std::filesystem::directory_iterator("./shp/BR/")) {
               filesList.push_back(file.path().filename());
             }
@@ -56,7 +56,7 @@ void confirmConvert(std::string suffix, int count) {
           if (ok == "y") {
             checkDir("./geoJSON/UFs");
             indicators::ProgressBar bar = progressBar("Converting", count);
-            std::vector<std::string> filesList;
+            std::vector<std::string> filesList(count);
             for (auto file :
                  std::filesystem::directory_iterator("./shp/UFs/")) {
               filesList.push_back(file.path().filename());
